@@ -29,6 +29,7 @@ function init() {
                     alert(idJugador);
                 }
             else if((l[0].img == 'lego-block.svg')) estrellas = l;
+            else if((l[0] >= 0)) puntosEquipos = l;
             else players = l;
         } catch (error) {
             if(typeof(e.data) == typeof(""))
@@ -61,7 +62,6 @@ let keyCodeMovementR = 0;
 let keyCodeMovementU = 0;
 let keyCodeMovementD = 0;
 let keyCodeSpace = false;
-let velXN = 0,velXP = 0, velYN = 0, velYP = 0, velocidad = 4;
 $(window).on("keydown",naveTeclado);    
 $(window).on("keyup",naveTeclado);    
 setInterval(mover,20);
@@ -84,24 +84,20 @@ $(window).on("mouseup",dispararRaton);*/
                         if((event.key == "ArrowLeft" || event.code == "KeyA") && keyCodeMovementL == false)
                             {
                                 keyCodeMovementL = true;
-                                velXN = velocidad;
                             }
                         if((event.key == "ArrowRight" || event.code == "KeyD") && keyCodeMovementR == false)
                             {
                                 keyCodeMovementR = true;
-                                velXP = velocidad;
                             }
                         if((event.key == "ArrowUp" || event.code == "KeyW") && keyCodeMovementU == false)
                             {
                                 keyCodeMovementU = true;
-                                velYN = velocidad;
                             }
                         if((event.key == "ArrowDown" || event.code == "KeyS") && keyCodeMovementD == false)
                             {
                                 keyCodeMovementD = true;
-                                velYP = velocidad;
                             }
-                        if((event.key == " " || event.code == "Space" || event.key == "Enter" || event.code == "Enter") && keyCodeSpace == false)
+                        if((event.code == "Space" || event.code == "Enter") && keyCodeSpace == false)
                             {
                                 keyCodeSpace = true;
                                 event.preventDefault();
@@ -114,24 +110,20 @@ $(window).on("mouseup",dispararRaton);*/
                             if((event.key == "ArrowLeft" || event.code == "KeyA") && keyCodeMovementL == true)
                                 {
                                     keyCodeMovementL = false;
-                                    velXN = 0;
                                 }
                             if((event.key == "ArrowRight" || event.code == "KeyD") && keyCodeMovementR == true)
                                 {
                                     keyCodeMovementR = false;
-                                    velXP = 0;
                                 }
                             if((event.key == "ArrowUp" || event.code == "KeyW") && keyCodeMovementU == true)
                                 {
                                     keyCodeMovementU = false;
-                                    velYN = 0;
                                 }
                             if((event.key == "ArrowDown" || event.code == "KeyS") && keyCodeMovementD == true)
                                 {
                                     keyCodeMovementD = false;
-                                    velYP = 0;
                                 }
-                            if((event.key == " " || event.code == "Space" || event.key == "Enter" || event.code == "Enter") && keyCodeSpace == true)
+                            if((event.code == "Space" || event.code == "Enter") && keyCodeSpace == true)
                                 {
                                     keyCodeSpace = false;
                                 }
@@ -198,7 +190,8 @@ function actualizarPuntos()
     $(tablero).html(jugador1.nom + ": " + jugador1.punts + "\n"+ jugador2.nom + ": " + jugador2.punts + "\n" + jugador3.nom + ": " + jugador3.punts)
 }
 //Estrellas
-let estrellas = [];
+let estrellas = []; //Array de bloques
+let puntosEquipos = [0,0];
 function dibujarEstrellas(estrellas)
 {
     let partida = $(".estrellas");

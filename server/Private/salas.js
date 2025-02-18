@@ -40,9 +40,20 @@ export class Partida
             
             if(element.team == "green") verdes++;
             else rojos ++;
-            console.log(element.team);
         });
         if(verdes < rojos) return 0;
         else return 1;
+    }
+    sumarPuntosEquipos () {
+        let verdes = 0;
+        let rojos = 0;
+        this.players.forEach(element => {
+            
+            if(element.team == "green") verdes += element.score;
+            else rojos += element.score
+        });
+        this.score[0] = verdes;
+        this.score[1] = rojos;
+        return this.score;
     }
 }

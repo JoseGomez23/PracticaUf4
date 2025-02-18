@@ -120,8 +120,10 @@ function broadcast(missatge, clientExclos) {
 }
 function actualizarInfo(mensaje,client)
 {
+	sales[0].sumarPuntosEquipos();
 	client.send((JSON.stringify(sales[mensaje.server].players)));
 	client.send((JSON.stringify(sales[mensaje.server].estrelles)));
+	client.send((JSON.stringify(sales[mensaje.server].score)));
 }
 function changePlayersPos(mensaje)
 {
@@ -144,7 +146,7 @@ function changePlayersPos(mensaje)
 	sales[0].players[playerIndex].y > 849.33? sales[0].players[playerIndex].y = 849.33: sales[0].players[playerIndex].y < 0? 
 		sales[0].players[playerIndex].y = 0: sales[0].players[playerIndex].y;
 	
-	recogerEstrella(playerIndex);
+	recogerEstrella(playerIndex, mensaje.sp,sales[0].players[playerIndex].brick);
 
 	//Enviar les dades
 	/*wsServer.clients.forEach(function each(client) {
@@ -182,21 +184,34 @@ function generarEstrellas()
 		}
 	});*/
 }
-function recogerEstrella(index)
+function recogerEstrella(index,sp,brick)
 {
-	for(let i = 0; i < sales[0].estrelles.length; i++)
-	{
-		let element = sales[0].estrelles[i];
-		let xTrue = false;
-		let yTrue = false;
-		//Calcular posiciones
-		element.x <= (sales[0].players[index].x + sales[0].players[index].w)? (sales[0].players[index].x <= (element.x + 20)? xTrue = true: xTrue = false): xTrue = false;
-		element.y <= (sales[0].players[index].y + sales[0].players[index].h)? (sales[0].players[index].y <= (element.y + 20)? yTrue = true: yTrue = false): yTrue = false;
-		//Eliminar estrella al contacto
-		(xTrue == true && yTrue == true)? sales[0].estrelles.splice(i,1): xTrue;
-		// Debugar el recoger estrella
-		(xTrue == true && yTrue == true)? sales[0].players[index].score++: xTrue;
-	}
+	console.log(sp,brick);
+	if(brick == false && sp == true)
+		{
+			for(let i = 0; i < sales[0].estrelles.length; i++)
+				{
+					let element = sales[0].estrelles[i];
+					let xTrue = false;
+					let yTrue = false;
+					//Calcular posiciones
+					element.x <= (sales[0].players[index].x + sales[0].players[index].w)? (sales[0].players[index].x <= (element.x + 20)? xTrue = true: xTrue = false): xTrue = false;
+					element.y <= (sales[0].players[index].y + sales[0].players[index].h)? (sales[0].players[index].y <= (element.y + 20)? yTrue = true: yTrue = false): yTrue = false;
+					//Eliminar estrella al contacto
+					if(xTrue == true && yTrue == true)
+						{
+							sales[0].estrelles.splice(i,1);
+							sales[0].players[index].score++;
+							sales[0].players[index].brick = true;
+						}
+				}
+		}
+		else if(brick == true && sp == false)
+		{
+			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:sales[0].players[index].x,y:sales[0].players[index].y});
+			sales[0].players[index].brick = false;
+		}
+	
 	//let estrella =
 	//console.log(estrella.offsetTop + estrella.offsetHeight)
 }
@@ -214,7 +229,7 @@ wsServer.on('connection', (client, peticio) => {
 	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
 	if(equip == "red") img = "Planes/planeColorfull.svg";
 	console.log(sales[0].lessPlayersTeam());
-	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:1660,y:849.33,rot:0,score: 0,w:tamanoNaves[img.split("/")[0]].w,h:tamanoNaves[img.split("/")[0]].h});
+	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:1660,y:849.33,rot:0,score: 0,w:tamanoNaves[img.split("/")[0]].w,h:tamanoNaves[img.split("/")[0]].h,brick:false});
 	client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
 	// Al rebre un missatge d'aques client
 	//	reenviar-lo a tothom (inclòs ell mateix)
