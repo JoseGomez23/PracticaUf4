@@ -81,7 +81,8 @@ app.get("/profile", (req, res) => {
 
 	let dadesUser = JSON.stringify({ email: req.user._json.email });
 	if(dadesUser.match(/{"email":"[^"]+@sapalomera\.cat"}/)){
-		
+
+		res.cookie('mail', dadesUser, { maxAge: 900000, httpOnly: true });
 		res.redirect("http://localhost:8080/Joc");
 	} else {
 		res.send(`No tens permís per accedir a aquesta pàgina`);

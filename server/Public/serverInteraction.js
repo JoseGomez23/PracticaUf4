@@ -60,13 +60,14 @@ let keyCodeMovementL = false;
 let keyCodeMovementR = 0;
 let keyCodeMovementU = 0;
 let keyCodeMovementD = 0;
+let keyCodeSpace = false;
 let velXN = 0,velXP = 0, velYN = 0, velYP = 0, velocidad = 4;
 $(window).on("keydown",naveTeclado);    
 $(window).on("keyup",naveTeclado);    
 setInterval(mover,20);
 function mover(event)
 {
-    let js = JSON.stringify({action: "mover", id: idJugador,up: keyCodeMovementU,dw: keyCodeMovementD,le: keyCodeMovementL,ri: keyCodeMovementR})
+    let js = JSON.stringify({action: "mover", id: idJugador,up: keyCodeMovementU,dw: keyCodeMovementD,le: keyCodeMovementL,ri: keyCodeMovementR,sp: keyCodeSpace })
     enviar(event,js);
 }
 
@@ -100,6 +101,12 @@ $(window).on("mouseup",dispararRaton);*/
                                 keyCodeMovementD = true;
                                 velYP = velocidad;
                             }
+                        if((event.key == " " || event.code == "Space" || event.key == "Enter" || event.code == "Enter") && keyCodeSpace == false)
+                            {
+                                keyCodeSpace = true;
+                                event.preventDefault();
+                            }
+                        
                         
                         
                     }else if(event.type == "keyup")
@@ -123,6 +130,10 @@ $(window).on("mouseup",dispararRaton);*/
                                 {
                                     keyCodeMovementD = false;
                                     velYP = 0;
+                                }
+                            if((event.key == " " || event.code == "Space" || event.key == "Enter" || event.code == "Enter") && keyCodeSpace == true)
+                                {
+                                    keyCodeSpace = false;
                                 }
                             
                         }
