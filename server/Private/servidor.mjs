@@ -97,6 +97,9 @@ app.get("/logout", (req, res) => {
 // Iniciar servidor
 app.listen(8000, () => console.log("Servidor en http://localhost:8000"));
 
+
+
+
 // Crear servidor WebSockets i escoltar en el port 8180
 const wsServer = new WebSocketServer({ port:8180 })
 console.log("Servidor WebSocket escoltant en http://localhost:8180");
@@ -207,8 +210,11 @@ wsServer.on('connection', (client, peticio) => {
 	client.send(`Benvingut <strong>${id}</strong>`);
 	broadcast(`Nou client afegit: ${id}`, client);
 	let img = "Rockets/rocketColorfull.svg";
-	if(sales[0].players.length > 0) img = "Planes/planeColorfull.svg";
-	sales[0].players.push({id:("player"+peticio.socket.remotePort),nom:"Mondongo",img:img,x:1660,y:849.33,rot:0,score: 0,w:tamanoNaves[img.split("/")[0]].w,h:tamanoNaves[img.split("/")[0]].h});
+	let equip = "green";
+	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
+	if(equip == "red") img = "Planes/planeColorfull.svg";
+	console.log(sales[0].lessPlayersTeam());
+	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:1660,y:849.33,rot:0,score: 0,w:tamanoNaves[img.split("/")[0]].w,h:tamanoNaves[img.split("/")[0]].h});
 	client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
 	// Al rebre un missatge d'aques client
 	//	reenviar-lo a tothom (inclòs ell mateix)
