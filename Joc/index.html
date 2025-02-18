@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+	<title>WebSocket Echo Client</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+    	.div {overflow-y:auto;margin-bottom:1rem;width:20rem;height:30rem;border:solid black 1px;}
+    	textarea {width:20rem;}
+		.partida
+		{
+			display: flex;
+		}
+		.DivPlayer
+		{
+			position:absolute;
+			
+			bottom:0px;
+			
+			overflow: hidden;
+			border: 0cap	;
+			height: fit-content;
+			width: fit-content;
+		}
+		.DivEstrella
+		{
+			position:absolute;
+			
+			bottom:0px;
+			
+			overflow: hidden;
+			border: 0cap	;
+			height: min-content;
+			width: min-content;
+		}
+		.player
+		{
+			border-width: 0cap;
+		}
+		.estrella
+		{
+			border-width: 0cap;
+			overflow: hidden;
+		}
+    </style>
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+	<script defer src="../server/Public/serverInteraction.js"></script>
+</head>
+<body onload="init()">
+	<div class="semiTransparentSmall">
+		<h1 class="StHt">STAR HUNTERS</h1>
+	</div>
+	<div class="partida">
+		<div class="jugadores"></div>
+		<div class="estrellas"></div>
+	</div>
+</body>
+</html>

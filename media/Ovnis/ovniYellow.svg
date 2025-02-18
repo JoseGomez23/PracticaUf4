@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="29.01 68.873 141.924 77.222" width="512" height="512">
+  <!-- Plato del OVNI -->
+  <ellipse cx="100" cy="120" rx="70" ry="25" fill="#5e5c04" stroke="#000" stroke-width="2" />
+ 
+  <!-- Cúpula del OVNI -->
+  <ellipse cx="100" cy="90" rx="40" ry="20" fill="#9e9c0e" stroke="#000" stroke-width="2" />
+ 
+  <!-- Luces del OVNI -->
+  <circle cx="60" cy="120" r="5" fill="#d1ce1d" />
+  <circle cx="80" cy="125" r="5" fill="#d1ce1d" />
+  <circle cx="100" cy="130" r="5" fill="#d1ce1d" />
+  <circle cx="120" cy="125" r="5" fill="#d1ce1d" />
+  <circle cx="140" cy="120" r="5" fill="#d1ce1d" />
+ 
+
+
+</svg>

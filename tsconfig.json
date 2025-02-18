@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "sourceMap": true,
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "strict": true,
+        "allowJs": true,
+        "lib": ["ES2022","dom"],
+        "outDir": "src/JavaScript"
+    }
+}

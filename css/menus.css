@@ -1,0 +1,225 @@
+@import url("./variables.css");
+
+body
+{
+    background-image: url("../media/Components/pxsprite-space.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*Text*/
+.StHt
+{
+    font-family: var(--font);
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    background: var(--button-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+/*Fondos div*/
+.semiTransparentBig
+{
+    margin: auto;
+    margin-top: 4%;
+    
+    width: 78.063rem;
+    height: 50.625rem;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.54);  
+}
+.semiTransparentMedium
+{
+    margin: auto;
+    margin-top: 4%;
+
+    width: 46.563rem;
+    height: 40.688rem;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.54);
+}
+
+.semiTransparentSmall
+{
+    margin: auto;
+    margin-top: 4%;
+
+
+    width: 42.063rem;
+    height: 8.125rem;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.54);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*Tienda*/
+.itemSemiTransparent
+{
+    width: 295px;
+    height: 295px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(106, 17, 203, 0.27);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container {
+    display: flex;
+    width: auto;
+    justify-content: space-around;
+    align-items: center;
+}
+img {
+    width: 255px;
+    height: 255px;
+    object-fit: contain;
+}
+/*Características sueltas*/
+.center
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*Botones*/
+button
+{
+    background: var(--button-color);
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    border-width: 0rem;
+    transition: 0.25s;
+    margin-top: 5rem;
+}
+
+button:hover
+{
+    transition: 0.25s;
+    transform: scaleX(1.03) scaleY(1.03);
+}
+button:active
+{
+    transition: 0.10s;
+    transform: scaleX(0.97) scaleY(0.97);
+}
+
+.bigBt
+{
+    width: 40.198rem;
+    height: 10.253rem;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 4rem;
+}
+
+.smallBt
+{
+    width: 25.095rem;
+    height: 6.03rem;
+    position: relative;
+    margin-top: 5rem;
+    left: 50rem;
+    font-size: 2.25rem;
+}
+
+.smallSubm
+{
+    width: 25.095rem;
+    height: 6.03rem;
+    margin-top: 5rem;
+    position: relative;
+    left: 11rem;
+    font-size: 4rem;
+    font-size: 2.25rem;
+}
+.goBack
+{
+    width: 493.103px;
+    height: 123.276px;
+    margin-top: 5rem;
+    position: relative;
+    font-family: var(--font);
+    font-size: 3rem;
+}
+
+.flechaD
+{
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    position: relative;
+    left: 15%;
+    border-width: 5px;
+    z-index: +3;
+}
+.flechaI
+{
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    position: relative;
+    right: 15%;
+    border-width: 5px;
+    z-index: +3;
+}
+
+.selectSpaceship
+{
+    width: 291.031px;
+    height: 123.276px;
+    flex-shrink: 0;
+
+    color: #000;
+
+    font-family: var(--font);
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.selectSpaceship-selected
+{
+    width: 291.031px;
+    height: 123.276px;
+    flex-shrink: 0;
+
+    color: #000;
+
+    font-family: var(--font);
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+/*Inputs*/
+
+input
+{
+    background: var(--button-color);
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    border-width: 0rem;
+    transition: 0.25s;
+    margin-top: 5rem;
+}
+
+.loginInp
+{
+    width: 30.819rem;
+    height: 7.705rem;
+    flex-shrink: 0;
+    
+    margin-top: 5rem;
+    position: relative;
+    left: 8rem;
+    font-size: 4rem;
+}
