@@ -11,7 +11,7 @@ const wsServer = new WebSocketServer({ port:8180 })
 console.log("Servidor WebSocket escoltant en http://localhost:8180");
 //Crear salas de manera provisional
 let sales = [];
-sales.push(new Partida(0,[],[{id:("estrella"+Date.now()),img:"star.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}]));
+sales.push(new Partida(0,[],[{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}]));
 let tamanoNaves = [];
 tamanoNaves["Rockets"] = {w:30,h:50};
 tamanoNaves["Planes"] = {w:50,h:50};
@@ -80,7 +80,7 @@ function generarEstrellas()
 {
 	if(sales[0].estrelles.length < 6)
 		{
-			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"star.svg",x:getRandomInt(1661),y:getRandomInt(850)});
+			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(1661),y:getRandomInt(850)});
 		}
 /*	wsServer.clients.forEach(function each(client) {
 		if (client.readyState === WebSocket.OPEN) {

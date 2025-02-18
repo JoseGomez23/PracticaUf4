@@ -28,7 +28,7 @@ function init() {
 
                     alert(idJugador);
                 }
-            else if((l[0].img == 'star.svg')) estrellas = l;
+            else if((l[0].img == 'lego-block.svg')) estrellas = l;
             else players = l;
         } catch (error) {
             if(typeof(e.data) == typeof(""))
