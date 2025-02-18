@@ -78,7 +78,14 @@ app.get(
 // Ruta protegida
 app.get("/profile", (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/");
-	res.redirect("http://localhost:8080/Joc");
+
+	let dadesUser = JSON.stringify({ email: req.user._json.email });
+	if(dadesUser.match(/{"email":"[^"]+@sapalomera\.cat"}/)){
+		
+		res.redirect("http://localhost:8080/Joc");
+	} else {
+		res.send(`No tens permís per accedir a aquesta pàgina`);
+	}
 });
 
 // Tancar sesió
