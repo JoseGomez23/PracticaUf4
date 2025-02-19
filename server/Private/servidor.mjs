@@ -258,7 +258,7 @@ function recogerEstrella(index,sp,spPres,brick)
 		}
 		else if(brick == true && sp == false && spPres == true)
 		{
-			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:sales[0].players[index].x,y:sales[0].players[index].y});
+			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:sales[0].players[index].x+17,y:sales[0].players[index].y+17});
 			sales[0].players[index].brick = false;
 		}
 	if(brick == false)
