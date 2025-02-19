@@ -185,6 +185,8 @@ function dibujarNaves(naves)
                 $(partida).append(div);
             }
         $(div).css({top: element.y+"px", left: element.x+"px",transform: 'rotate('+element.rot+'deg)'})  
+        let iframe = $(div).find("iframe");
+        if($(iframe).attr("src") != "./media/"+element.img)$(iframe).attr("src","./media/"+element.img);  
     });
     let navesDibujadas = $(partida).find(".DivPlayer");
     for(let i = 0; i < $(navesDibujadas).length; i++)
@@ -201,7 +203,6 @@ function dibujarNaves(naves)
 function actualizarPuntos()
 {
     let tablero = $(".StHt");
-    console.log(puntosEquipos);
     $(tablero).html("Verdes: " + puntosEquipos[0] + "\n"+ "Rojos: " + puntosEquipos[1]);
 }
 //Estrellas

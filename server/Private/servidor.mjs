@@ -96,8 +96,8 @@ console.log("Servidor WebSocket escoltant en http://localhost:8180");
 let sales = [];
 sales.push(new Partida(0,[],[{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}]));
 let tamanoNaves = [];
-tamanoNaves["Rockets"] = {w:50,h:50};
-tamanoNaves["Planes"] = {w:50,h:50};
+tamanoNaves["personitaR.svg"] = {w:50,h:50};
+tamanoNaves["personitaV.svg"] = {w:50,h:50};
 // Enviar missatge a tothom excepte a 'clientExclos'
 //	(si no s'especifica qui és el 'clientExclos', s'envia a tots els clients)
 function broadcast(missatge, clientExclos) {
@@ -247,8 +247,15 @@ function recogerEstrella(index,sp,spPres,brick)
 			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:sales[0].players[index].x,y:sales[0].players[index].y});
 			sales[0].players[index].brick = false;
 		}
-	//let estrella =
-	//console.log(estrella.offsetTop + estrella.offsetHeight)
+	if(brick == false)
+		{
+			if( sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaR.svg";
+			else sales[0].players[index].img = "Camello/personitaV.svg";
+		}else
+		{
+			if( sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaRB.svg";
+			else sales[0].players[index].img = "Camello/personitaVB.svg";
+		}
 }
 // Al rebre un nou client (nova connexió)
 wsServer.on('connection', (client, peticio) => {
@@ -261,13 +268,13 @@ wsServer.on('connection', (client, peticio) => {
 	broadcast(`Nou client afegit: ${id}`, client);
 
 	//Decidir equipo e imagen
-	let img = "Rockets/personita.svg";
+	let img = "Camello/personitaV.svg";
 	let equip = "green";
 	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
-	if(equip == "red") img = "Planes/planeColorfull.svg";
+	if(equip == "red") img = "Camello/personitaR.svg";
 	//Meter al jugador y chequear posicion
 	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:sales[0].spawnPoints[0].x
-		,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[0]].w,h:tamanoNaves[img.split("/")[0]].h,brick:false});
+		,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[1]].w,h:tamanoNaves[img.split("/")[1]].h,brick:false});
 	checkSpawnPoint(0,0,sales[0].players.length-1);
 
 	client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
