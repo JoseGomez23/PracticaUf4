@@ -126,6 +126,7 @@ function changePlayersPos(mensaje)
 	let playerIndex =  pArr.findIndex(obj => obj.id == id);
 	sales[0].players[playerIndex].x += parseInt(velX);
 	sales[0].players[playerIndex].y += parseInt(velY);
+	checkColision(velX,velY,playerIndex);
 	let rot = rotacion((velX),(velY));
 	rot == 777? rot = sales[0].players[playerIndex].rot: rot;
 	sales[0].players[playerIndex].rot = parseInt(rot);
@@ -144,9 +145,29 @@ function changePlayersPos(mensaje)
 		}
 	});*/
 }
-function checkColision(velX,velY)
+function checkColision(velX,velY,index)
 {
-
+	for(let i = 0; i < sales[0].players.length; i++)
+		{
+			if(i != index)
+				{
+					let element = sales[0].players[i];
+					let xTrue = false;
+					let yTrue = false;
+					//Calcular posiciones
+					sales[0].players[i].x <= (sales[0].players[index].x + sales[0].players[index].w)? (sales[0].players[index].x 
+						<= (sales[0].players[i].x + sales[0].players[i].w)? xTrue = true: xTrue = false): xTrue = false;
+					sales[0].players[i].y <= (sales[0].players[index].y + sales[0].players[index].h)? (sales[0].players[index].y 
+						<= (sales[0].players[i].y + sales[0].players[i].h)? yTrue = true: yTrue = false): yTrue = false;
+					//Eliminar estrella al contacto
+					if(xTrue == true && yTrue == true)
+						{
+							sales[0].players[index].x -= velX;
+							sales[0].players[index].y -= velY;
+						}
+				}
+			
+		}
 }
 function rotacion(velX,velY)
 {
