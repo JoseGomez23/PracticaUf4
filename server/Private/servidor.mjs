@@ -151,7 +151,6 @@ function checkColision(velX,velY,index)
 		{
 			if(i != index)
 				{
-					let element = sales[0].players[i];
 					let xTrue = false;
 					let yTrue = false;
 					//Calcular posiciones
@@ -164,10 +163,33 @@ function checkColision(velX,velY,index)
 						{
 							sales[0].players[index].x -= velX;
 							sales[0].players[index].y -= velY;
+							return true;
 						}
 				}
 			
 		}
+		return false;
+}
+function checkSpawnPoint(velX,velY,index)
+{
+	let posOcupada = false;
+	let intentos = 0;
+	try
+	{
+		do
+		{
+			intentos = intentos;
+			console.log(sales[0].spawnPoints);
+			sales[0].players[index].x = sales[0].spawnPoints[intentos].x; 
+			sales[0].players[index].y = sales[0].spawnPoints[intentos].y; 
+			posOcupada = checkColision(velX,velY,index);
+			intentos +=1;
+		}while(posOcupada);
+	}catch(e)
+	{
+		console.log(e)
+	}
+
 }
 function rotacion(velX,velY)
 {
@@ -225,7 +247,6 @@ function recogerEstrella(index,sp,spPres,brick)
 			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:sales[0].players[index].x,y:sales[0].players[index].y});
 			sales[0].players[index].brick = false;
 		}
-	
 	//let estrella =
 	//console.log(estrella.offsetTop + estrella.offsetHeight)
 }
@@ -238,12 +259,17 @@ wsServer.on('connection', (client, peticio) => {
 	//	i avisar a tots els altres que s'ha afegit un nou client
 	client.send(`Benvingut <strong>${id}</strong>`);
 	broadcast(`Nou client afegit: ${id}`, client);
+
+	//Decidir equipo e imagen
 	let img = "Rockets/personita.svg";
 	let equip = "green";
 	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
 	if(equip == "red") img = "Planes/planeColorfull.svg";
-	console.log(sales[0].lessPlayersTeam());
-	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:1660,y:849.33,rot:0,score: 0,w:tamanoNaves[img.split("/")[0]].w,h:tamanoNaves[img.split("/")[0]].h,brick:false});
+	//Meter al jugador y chequear posicion
+	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:sales[0].spawnPoints[0].x
+		,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[0]].w,h:tamanoNaves[img.split("/")[0]].h,brick:false});
+	checkSpawnPoint(0,0,sales[0].players.length-1);
+
 	client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
 	// Al rebre un missatge d'aques client
 	//	reenviar-lo a tothom (inclòs ell mateix)
