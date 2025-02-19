@@ -29,6 +29,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+let maxX = 1660;
+let maxY = 849.33;
+let minX = 0;
+let minY = 80;
+
+let areaGreenMinY = 0;
+let areaGreenMaxY = 849.33;
+let areaGreenMinX = 0;
+let areaGreenMaxX = 1660;
+
+let areaRedMinY = 0;
+let areaRedMaxY = 849.33;
+let areaRedMinX = 1660;
+let areaRedMaxX = 3320;
 
 // Estratègia Google OAuth 2.0
 passport.use(
@@ -131,10 +145,10 @@ function changePlayersPos(mensaje)
 	rot == 777? rot = sales[0].players[playerIndex].rot: rot;
 	sales[0].players[playerIndex].rot = parseInt(rot);
 	//Limits to the position
-	sales[0].players[playerIndex].x > 1660? sales[0].players[playerIndex].x = 1660: sales[0].players[playerIndex].x < 0? 
-		sales[0].players[playerIndex].x = 0: sales[0].players[playerIndex].x;
-	sales[0].players[playerIndex].y > 849.33? sales[0].players[playerIndex].y = 849.33: sales[0].players[playerIndex].y < 0? 
-		sales[0].players[playerIndex].y = 0: sales[0].players[playerIndex].y;
+	sales[0].players[playerIndex].x > maxX? sales[0].players[playerIndex].x = maxX: sales[0].players[playerIndex].x < minX? 
+		sales[0].players[playerIndex].x = minX: sales[0].players[playerIndex].x;
+	sales[0].players[playerIndex].y > maxY? sales[0].players[playerIndex].y = maxY: sales[0].players[playerIndex].y < minY? 
+		sales[0].players[playerIndex].y = minY: sales[0].players[playerIndex].y;
 	
 	recogerEstrella(playerIndex, mensaje.sp, mensaje.spPres,sales[0].players[playerIndex].brick);
 
@@ -190,7 +204,7 @@ function generarEstrellas()
 {
 	if(sales[0].estrelles.length < 6)
 		{
-			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(1661),y:getRandomInt(850)});
+			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(maxX - minX) + minX,y:getRandomInt(maxY - minY) + minY});
 		}
 /*	wsServer.clients.forEach(function each(client) {
 		if (client.readyState === WebSocket.OPEN) {
