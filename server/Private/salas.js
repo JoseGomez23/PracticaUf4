@@ -5,12 +5,14 @@ export class Partida
     players = [];
     estrelles = [];
     score = [0,0]; // el primero es del verde y el segundo del rojo
+    spawnPoints; // el primero es del verde y el segundo del rojo
 
     constructor(id,players,estrelles)
     {
         this.id = id;
         this.players = players;
         this.estrelles = estrelles;
+        this.spawnPoints = [{x:10,y:120},{x:10,y:220},{x:10,y:320},{x:10,y:420},{x:10,y:520},{x:10,y:620},{x:10,y:720},{x:10,y:820}];
     }
 
     //Seters i geters
@@ -21,6 +23,10 @@ export class Partida
     get id()
     {
         return this.id;
+    }
+    get spawnPoints()
+    {
+        return this.spawnPoints;
     }
     set players(p)
     {
