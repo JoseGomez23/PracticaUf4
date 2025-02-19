@@ -80,13 +80,15 @@ let keyCodeMovementL = false;
 let keyCodeMovementR = 0;
 let keyCodeMovementU = 0;
 let keyCodeMovementD = 0;
-let keyCodeSpace = false;
+let keyCodeSpace = 0;
+let keyCodeSpaceValue = 0;
 $(window).on("keydown",naveTeclado);    
 $(window).on("keyup",naveTeclado);    
 setInterval(mover,20);
 function mover(event)
 {
-    let js = JSON.stringify({action: "mover", id: idJugador,up: keyCodeMovementU,dw: keyCodeMovementD,le: keyCodeMovementL,ri: keyCodeMovementR,sp: keyCodeSpace })
+
+    let js = JSON.stringify({action: "mover", id: idJugador,up: keyCodeMovementU,dw: keyCodeMovementD,le: keyCodeMovementL,ri: keyCodeMovementR,sp: keyCodeSpaceValue, spPres: keyCodeSpace})
     enviar(event,js);
 }
 
@@ -103,22 +105,27 @@ $(window).on("mouseup",dispararRaton);*/
                         if((event.key == "ArrowLeft" || event.code == "KeyA") && keyCodeMovementL == false)
                             {
                                 keyCodeMovementL = true;
+                                event.preventDefault();
                             }
                         if((event.key == "ArrowRight" || event.code == "KeyD") && keyCodeMovementR == false)
                             {
                                 keyCodeMovementR = true;
+                                event.preventDefault();
                             }
                         if((event.key == "ArrowUp" || event.code == "KeyW") && keyCodeMovementU == false)
                             {
                                 keyCodeMovementU = true;
+                                event.preventDefault();
                             }
                         if((event.key == "ArrowDown" || event.code == "KeyS") && keyCodeMovementD == false)
                             {
                                 keyCodeMovementD = true;
+                                event.preventDefault();
                             }
-                        if((event.code == "Space" || event.code == "Enter") && keyCodeSpace == false)
+                        if((event.key == " " || event.code == "Enter") && keyCodeSpace == false)
                             {
                                 keyCodeSpace = true;
+                                keyCodeSpaceValue == false? keyCodeSpaceValue = true: keyCodeSpaceValue = false; 
                                 event.preventDefault();
                             }
                         
@@ -142,9 +149,16 @@ $(window).on("mouseup",dispararRaton);*/
                                 {
                                     keyCodeMovementD = false;
                                 }
-                            if((event.code == "Space" || event.code == "Enter") && keyCodeSpace == true)
+                            if((event.key == " " || event.code == "Enter") && keyCodeSpace == true)
                                 {
                                     keyCodeSpace = false;
+                                    if(keyCodeSpaceValue == false)
+                                        {
+                                            keyCodeSpaceValue = true;
+                                            setTimeout(function(){
+                                                keyCodeSpaceValue = false;
+                                            },20);
+                                        } 
                                 }
                             
                         }
@@ -170,7 +184,6 @@ function dibujarNaves(naves)
                     '<iframe src="./media/'+element.img+'" width="'+element.w+'" height="'+element.h+'" class="player" title="SVG"></iframe></div>');
                 $(partida).append(div);
             }
-            console.log(element.rot);
         $(div).css({top: element.y+"px", left: element.x+"px",transform: 'rotate('+element.rot+'deg)'})  
     });
     let navesDibujadas = $(partida).find(".DivPlayer");
@@ -188,25 +201,8 @@ function dibujarNaves(naves)
 function actualizarPuntos()
 {
     let tablero = $(".StHt");
-    let jugador1 = {nom: "",punts: 0},jugador2 = {nom: "",punts: 0},jugador3 = {nom: "",punts: 0};
-    
-    for(let i = 0; i < players.length; i++){
-        let element = players[i]; 
-        if(element.score > jugador1.punts && element.nom != jugador1.nom) 
-            {
-                jugador1 = {nom:element.nom, punts:element.score};
-                i = 0;
-            }else if(element.score > jugador2.punts && element.nom != jugador2.nom)
-            {
-                jugador2 = {nom:element.nom, punts:element.score};
-                i = 0;
-            }else if(element.score > jugador3.punts && element.nom != jugador3.nom) 
-                {
-                    jugador3 = {nom:element.nom, punts:element.score};
-                    i = 0;
-                }
-    }
-    $(tablero).html(jugador1.nom + ": " + jugador1.punts + "\n"+ jugador2.nom + ": " + jugador2.punts + "\n" + jugador3.nom + ": " + jugador3.punts)
+    console.log(puntosEquipos);
+    $(tablero).html("Verdes: " + puntosEquipos[0] + "\n"+ "Rojos: " + puntosEquipos[1]);
 }
 //Estrellas
 let estrellas = []; //Array de bloques
@@ -224,7 +220,6 @@ function dibujarEstrellas(estrellas)
                     '<iframe src="./media/Components/'+element.img+'" width="20" height="20" class="estrella" title="SVG"></iframe></div>');
                 $(partida).append(div);
             }
-            console.log(element.rot);
         $(div).css({top: element.y+"px", left: element.x+"px",transform: 'rotate('+element.rot+'deg)'})  
     });
     let navesDibujadas = $(partida).find(".DivEstrella");

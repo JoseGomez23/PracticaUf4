@@ -1,4 +1,5 @@
 import {Partida} from "./salas.js"
+
 /******************************************************************************
 *					SERVIDOR WEB SOCKETS (port 8180)
 ******************************************************************************/
@@ -134,7 +135,7 @@ function changePlayersPos(mensaje)
 	sales[0].players[playerIndex].y > 849.33? sales[0].players[playerIndex].y = 849.33: sales[0].players[playerIndex].y < 0? 
 		sales[0].players[playerIndex].y = 0: sales[0].players[playerIndex].y;
 	
-	recogerEstrella(playerIndex, mensaje.sp,sales[0].players[playerIndex].brick);
+	recogerEstrella(playerIndex, mensaje.sp, mensaje.spPres,sales[0].players[playerIndex].brick);
 
 	//Enviar les dades
 	/*wsServer.clients.forEach(function each(client) {
@@ -142,6 +143,10 @@ function changePlayersPos(mensaje)
 			client.send((JSON.stringify(sales[0].players)));
 		}
 	});*/
+}
+function checkColision(velX,velY)
+{
+
 }
 function rotacion(velX,velY)
 {
@@ -172,10 +177,9 @@ function generarEstrellas()
 		}
 	});*/
 }
-function recogerEstrella(index,sp,brick)
+function recogerEstrella(index,sp,spPres,brick)
 {
-	console.log(sp,brick);
-	if(brick == false && sp == true)
+	if(brick == false && sp == true && spPres == true)
 		{
 			for(let i = 0; i < sales[0].estrelles.length; i++)
 				{
@@ -191,10 +195,11 @@ function recogerEstrella(index,sp,brick)
 							sales[0].estrelles.splice(i,1);
 							sales[0].players[index].score++;
 							sales[0].players[index].brick = true;
+							i = sales[0].estrelles.length;
 						}
 				}
 		}
-		else if(brick == true && sp == false)
+		else if(brick == true && sp == false && spPres == true)
 		{
 			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:sales[0].players[index].x,y:sales[0].players[index].y});
 			sales[0].players[index].brick = false;
