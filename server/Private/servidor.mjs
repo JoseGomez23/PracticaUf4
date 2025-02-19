@@ -95,7 +95,7 @@ console.log("Servidor WebSocket escoltant en http://localhost:8180");
 let sales = [];
 sales.push(new Partida(0,[],[{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}]));
 let tamanoNaves = [];
-tamanoNaves["Rockets"] = {w:30,h:50};
+tamanoNaves["Rockets"] = {w:50,h:50};
 tamanoNaves["Planes"] = {w:50,h:50};
 // Enviar missatge a tothom excepte a 'clientExclos'
 //	(si no s'especifica qui és el 'clientExclos', s'envia a tots els clients)
@@ -212,7 +212,7 @@ wsServer.on('connection', (client, peticio) => {
 	//	i avisar a tots els altres que s'ha afegit un nou client
 	client.send(`Benvingut <strong>${id}</strong>`);
 	broadcast(`Nou client afegit: ${id}`, client);
-	let img = "Rockets/rocketColorfull.svg";
+	let img = "Rockets/personita.svg";
 	let equip = "green";
 	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
 	if(equip == "red") img = "Planes/planeColorfull.svg";
