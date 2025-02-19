@@ -9,7 +9,6 @@ import * as fs from 'fs';
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -17,10 +16,6 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const __dirname1 = path.resolve(__dirname, '../public');
-
-const users = [
-    { id: 1, username: "admin", password: "1234" }
-];
 
 // Credencials Google
 const credencials = JSON.parse(fs.readFileSync(path.join(__dirname, "credencials.json")));
@@ -33,13 +28,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Estratègia Local (Usuari/Contrassenya)
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    const user = users.find((u) => u.username === username && u.password === password);
-    return user ? done(null, user) : done(null, false, { message: "Credencials incorrectes" });
-  })
-);
 
 // Estratègia Google OAuth 2.0
 passport.use(
@@ -82,7 +70,7 @@ app.get("/profile", (req, res) => {
 	let dadesUser = JSON.stringify({ email: req.user._json.email });
 	if(dadesUser.match(/{"email":"[^"]+@sapalomera\.cat"}/)){
 
-		res.cookie('mail', dadesUser, { maxAge: 900000, httpOnly: true });
+		res.cookie('email', dadesUser, { maxAge: 900000, httpOnly: true });
 		res.redirect("http://localhost:8080/Joc");
 	} else {
 		res.send(`No tens permís per accedir a aquesta pàgina`);

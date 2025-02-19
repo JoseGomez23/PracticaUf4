@@ -3,6 +3,25 @@ let connexio;
 let dibujarInt = 0;
 let estrellasInt = 0;
 
+
+let specificCookie = getCookie("email");
+
+function getCookie(name) {
+    let cookieArr = document.cookie.split(";");
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        if(name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+}
+
+if (!specificCookie) {
+    window.location.href = "http://localhost:8000";
+}
+
+
 function init() {
     // Local o remot
     let domini;
