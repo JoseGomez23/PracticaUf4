@@ -4,7 +4,7 @@ let dibujarInt = 0;
 let estrellasInt = 0;
 
 
-/*let specificCookie = getCookie("email");
+let specificCookie = getCookie("email");
 
 function getCookie(name) {
     let cookieArr = document.cookie.split(";");
@@ -19,7 +19,7 @@ function getCookie(name) {
 
 if (!specificCookie) {
     window.location.href = "http://localhost:8000";
-}*/
+}
 
 
 function init() {
