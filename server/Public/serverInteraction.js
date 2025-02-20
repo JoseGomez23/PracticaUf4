@@ -3,6 +3,9 @@ let connexio;
 let dibujarInt = 0;
 let estrellasInt = 0;
 
+let bgMusic = new Audio('./media/Music/backgroundMusic.mp3');
+bgMusic.volume = 0.2;
+let musicPlaying = false;
 
 let specificCookie = getCookie("email");
 
@@ -102,30 +105,54 @@ $(window).on("mouseup",dispararRaton);*/
             {
                 if(event.type == "keydown")
                     {
+                    
                         if((event.key == "ArrowLeft" || event.code == "KeyA") && keyCodeMovementL == false)
                             {
                                 keyCodeMovementL = true;
                                 event.preventDefault();
+                                if(musicPlaying == false) {
+                                    bgMusic.play();
+                                    bgMusic.loop = true;
+                                    musicPlaying = true;
+                                }
                             }
                         if((event.key == "ArrowRight" || event.code == "KeyD") && keyCodeMovementR == false)
                             {
                                 keyCodeMovementR = true;
                                 event.preventDefault();
+                                if(musicPlaying == false) {
+                                    bgMusic.play();
+                                    bgMusic.loop = true;
+                                    musicPlaying = true;
+                                }
                             }
                         if((event.key == "ArrowUp" || event.code == "KeyW") && keyCodeMovementU == false)
                             {
                                 keyCodeMovementU = true;
                                 event.preventDefault();
+                                if(musicPlaying == false) {
+                                    bgMusic.play();
+                                    bgMusic.loop = true;
+                                    musicPlaying = true;
+                                }
                             }
                         if((event.key == "ArrowDown" || event.code == "KeyS") && keyCodeMovementD == false)
                             {
                                 keyCodeMovementD = true;
                                 event.preventDefault();
+                                if(musicPlaying == false) {
+                                    bgMusic.play();
+                                    bgMusic.loop = true;
+                                    musicPlaying = true;
+                                }
                             }
                         if((event.key == " " || event.code == "Enter") && keyCodeSpace == false)
                             {
                                 keyCodeSpace = true;
                                 keyCodeSpaceValue == false? keyCodeSpaceValue = true: keyCodeSpaceValue = false; 
+
+                                pickUp.play();
+
                                 event.preventDefault();
                             }
                         
