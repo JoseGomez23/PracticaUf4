@@ -56,9 +56,9 @@ function init() {
         } catch (error) {
             if(typeof(e.data) == typeof(""))
                 {
-                    let d = document.querySelector('chat');
+                    /*let d = document.querySelector('chat');
                     d.innerHTML += "<p>" + e.data + "</p>";
-                    d.scroll(0,d.scrollHeight);
+                    d.scroll(0,d.scrollHeight);*/
                 } 
         }
 
@@ -230,7 +230,13 @@ function dibujarNaves(naves)
 function actualizarPuntos()
 {
     let tablero = $(".StHt");
-    $(tablero).html("Verdes: " + puntosEquipos[0] + "\n"+ "Rojos: " + puntosEquipos[1]);
+    let txt = ("Verdes: " + puntosEquipos[0] + "\n"+ "Rojos: " + puntosEquipos[1]);
+    if($(tablero).html() != txt)
+        {
+            $(tablero).html(txt);
+            dibujarTorre(puntosEquipos[0],puntosEquipos[1]);
+        }
+
 }
 //Estrellas
 let estrellas = []; //Array de bloques
@@ -261,6 +267,16 @@ function dibujarEstrellas(estrellas)
                 }
         }
 }
+function dibujarTorre(puntosVerde,puntosRojo)
+{
+    let redT = $(".TorreRed").find("*");
+    let greenT = $(".TorreGreen").find("*");
+    if(puntosRojo != 0) $(redT).prop("src","./media/Components/torre/red/"+puntosRojo+"b.svg");
+    else $(redT).prop("src","");
+    if(puntosVerde != 0) $(greenT).prop("src","./media/Components/torre/green/"+puntosVerde+"b.svg");
+    else $(greenT).prop("src","");
+}
+
 // Enviar missatge
 
 function enviar(ev,message) {
