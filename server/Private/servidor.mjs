@@ -34,15 +34,15 @@ let maxY = 849.33;
 let minX = 0;
 let minY = 80;
 
-let areaGreenMinY = 0;
-let areaGreenMaxY = 849.33;
-let areaGreenMinX = 0;
-let areaGreenMaxX = 1660;
+let areaGreenMinY = 750;
+let areaGreenMaxY = 850;
+let areaGreenMinX = 1375;
+let areaGreenMaxX = 1700;
 
 let areaRedMinY = 0;
-let areaRedMaxY = 849.33;
-let areaRedMinX = 1660;
-let areaRedMaxX = 3320;
+let areaRedMaxY = 200;
+let areaRedMinX = 1375;
+let areaRedMaxX = 1700;
 
 // Estratègia Google OAuth 2.0
 passport.use(
@@ -234,43 +234,77 @@ function generarEstrellas()
 		}
 	});*/
 }
-function recogerEstrella(index,sp,spPres,brick)
+function recogerEstrella(index, sp, spPres, brick) 
 {
-	if(brick == false && sp == true && spPres == true)
+	if (brick == false && sp == true && spPres == true) 
 		{
-			for(let i = 0; i < sales[0].estrelles.length; i++)
+		for (let i = 0; i < sales[0].estrelles.length; i++) 
+			{
+
+			let element = sales[0].estrelles[i];
+			let xTrue = false;
+			let yTrue = false;
+			// Calcular posiciones
+			element.x <= (sales[0].players[index].x + sales[0].players[index].w) ? (sales[0].players[index].x <= (element.x + 20) ? xTrue = true : xTrue = false) : xTrue = false;
+			element.y <= (sales[0].players[index].y + sales[0].players[index].h) ? (sales[0].players[index].y <= (element.y + 20) ? yTrue = true : yTrue = false) : yTrue = false;
+			// Eliminar estrella al contacto
+			if (xTrue == true && yTrue == true) 
 				{
-					let element = sales[0].estrelles[i];
-					let xTrue = false;
-					let yTrue = false;
-					//Calcular posiciones
-					element.x <= (sales[0].players[index].x + sales[0].players[index].w)? (sales[0].players[index].x <= (element.x + 20)? xTrue = true: xTrue = false): xTrue = false;
-					element.y <= (sales[0].players[index].y + sales[0].players[index].h)? (sales[0].players[index].y <= (element.y + 20)? yTrue = true: yTrue = false): yTrue = false;
-					//Eliminar estrella al contacto
-					if(xTrue == true && yTrue == true)
-						{
-							sales[0].estrelles.splice(i,1);
-							sales[0].players[index].score++;
-							sales[0].players[index].brick = true;
-							i = sales[0].estrelles.length;
-						}
+				sales[0].estrelles.splice(i, 1);
+				sales[0].players[index].brick = true;
+				i = sales[0].estrelles.length;
 				}
-		}
-		else if(brick == true && sp == false && spPres == true)
+			}
+	} else if (brick == true && sp == false && spPres == true) 
 		{
-			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:sales[0].players[index].x+17,y:sales[0].players[index].y+17});
-			sales[0].players[index].brick = false;
+			
+			let droppedArea = false;
+
+			if (sales[0].players[index].x >= areaRedMinX && 
+				sales[0].players[index].y >= areaRedMinY && 
+				sales[0].players[index].x <= areaRedMaxX && 
+				sales[0].players[index].y <= areaRedMaxY && 
+				sales[0].players[index].team == "red") 	
+			{
+
+				sales[0].players[index].brick = false;
+				sales[0].players[index].score++;
+				droppedArea = true;
+
+			}
+
+			if (sales[0].players[index].x >= areaGreenMinX && 
+				sales[0].players[index].y >= areaGreenMinY && 
+				sales[0].players[index].x <= areaGreenMaxX && 
+				sales[0].players[index].y <= areaGreenMaxY && 
+				sales[0].players[index].team == "green") 	
+			{
+
+				sales[0].players[index].brick = false;
+				sales[0].players[index].score++;
+				droppedArea = true;
+
+			}
+
+			if(droppedArea == false){
+
+				sales[0].estrelles.push({ id: ("estrella" + Date.now()), img: "lego-block.svg", x: sales[0].players[index].x + 17, y: sales[0].players[index].y + 17 });
+				sales[0].players[index].brick = false;
+			}
+
 		}
-	if(brick == false)
-		{
-			if( sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaR.svg";
-			else sales[0].players[index].img = "Camello/personitaV.svg";
-		}else
-		{
-			if( sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaRB.svg";
-			else sales[0].players[index].img = "Camello/personitaVB.svg";
-		}
+	if (brick == false) {
+
+		if (sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaR.svg";
+		else sales[0].players[index].img = "Camello/personitaV.svg";
+	
+	} else {
+
+		if (sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaRB.svg";
+		else sales[0].players[index].img = "Camello/personitaVB.svg";
+	}
 }
+
 // Al rebre un nou client (nova connexió)
 wsServer.on('connection', (client, peticio) => {
 	// Guardar identificador (IP i Port) del nou client
