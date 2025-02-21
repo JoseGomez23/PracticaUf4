@@ -29,20 +29,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-let maxX = 1660;
-let maxY = 849.33;
+let maxX = 1160;
+let maxY = 600;
 let minX = 0;
-let minY = 80;
+let minY = 0;
 
-let areaGreenMinY = 750;
-let areaGreenMaxY = 850;
-let areaGreenMinX = 1375;
-let areaGreenMaxX = 1700;
+let areaGreenMinY = 500;
+let areaGreenMaxY = 650;
+let areaGreenMinX = 800;
+let areaGreenMaxX = 1200;
 
 let areaRedMinY = 0;
-let areaRedMaxY = 200;
-let areaRedMinX = 1375;
-let areaRedMaxX = 1700;
+let areaRedMaxY = 150;
+let areaRedMinX = 800;
+let areaRedMaxX = 1200;
 
 let maxPunts = 15;
 
@@ -280,6 +280,7 @@ function recogerEstrella(index, sp, spPres, brick)
 				sales[0].players[index].brick = false;
 				sales[0].players[index].score++;
 				droppedArea = true;
+			
 
 			}
 
@@ -293,6 +294,7 @@ function recogerEstrella(index, sp, spPres, brick)
 				sales[0].players[index].brick = false;
 				sales[0].players[index].score++;
 				droppedArea = true;
+				
 
 			}
 
@@ -301,7 +303,7 @@ function recogerEstrella(index, sp, spPres, brick)
 				sales[0].estrelles.push({ id: ("estrella" + Date.now()), img: "lego-block.svg", x: sales[0].players[index].x + 17, y: sales[0].players[index].y + 17 });
 				sales[0].players[index].brick = false;
 			}
-
+			
 		}
 	if (brick == false) {
 
