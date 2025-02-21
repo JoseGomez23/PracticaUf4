@@ -53,6 +53,10 @@ function init() {
         } catch (error) {
             if(typeof(e.data) == typeof(""))
                 {
+                    if(e.data.includes("Gana"))
+                        {
+                            setTimeout(function(){alert(e.data);},100);
+                        }
                     /*let d = document.querySelector('chat');
                     d.innerHTML += "<p>" + e.data + "</p>";
                     d.scroll(0,d.scrollHeight);*/
@@ -207,7 +211,7 @@ function actualizarPuntos()
     if($(tablero).html() != txt)
         {
             $(tablero).html(txt);
-            dibujarTorre(puntosEquipos[0],puntosEquipos[1]);
+            dibujarTorre(puntosEquipos[0],puntosEquipos[1],puntosEquipos[2]);
         }
 
 }
@@ -240,14 +244,23 @@ function dibujarEstrellas(estrellas)
                 }
         }
 }
-function dibujarTorre(puntosVerde,puntosRojo)
+function dibujarTorre(puntosVerde,puntosRojo,max)
 {
-    let redT = $(".TorreRed").find("*");
-    let greenT = $(".TorreGreen").find("*");
-    if(puntosRojo != 0) $(redT).prop("src","./media/Components/torre/red/"+puntosRojo+"b.svg");
-    else $(redT).prop("src","");
-    if(puntosVerde != 0) $(greenT).prop("src","./media/Components/torre/green/"+puntosVerde+"b.svg");
-    else $(greenT).prop("src","");
+    let multiplicador = 15/max; //Las torres siempre son de 15
+    console.log(puntosRojo);
+    puntosRojo = Math.floor(puntosRojo*multiplicador);
+    puntosVerde = Math.floor(puntosVerde*multiplicador);
+
+    if(!(puntosRojo > max || puntosVerde > max))
+        {
+            let redT = $(".TorreRed").find("*");
+            let greenT = $(".TorreGreen").find("*");
+            if(puntosRojo > 0) $(redT).prop("src","./media/Components/torre/red/"+puntosRojo+"b.svg");
+            else $(redT).prop("src","");
+            if(puntosVerde > 0) $(greenT).prop("src","./media/Components/torre/green/"+puntosVerde+"b.svg");
+            else $(greenT).prop("src","");
+        }
+
 }
 
 // Enviar missatge

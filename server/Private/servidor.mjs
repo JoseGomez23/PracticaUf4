@@ -44,6 +44,9 @@ let areaRedMaxY = 200;
 let areaRedMinX = 1375;
 let areaRedMaxX = 1700;
 
+let maxPunts = 15;
+
+
 // Estratègia Google OAuth 2.0
 passport.use(
   new GoogleStrategy(
@@ -108,7 +111,7 @@ const wsServer = new WebSocketServer({ port:8180 })
 console.log("Servidor WebSocket escoltant en http://localhost:8180");
 //Crear salas de manera provisional
 let sales = [];
-sales.push(new Partida(0,[],[{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}]));
+sales.push(new Partida(0,[],[{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}],maxPunts));
 let tamanoNaves = [];
 tamanoNaves["personitaR.svg"] = {w:50,h:50};
 tamanoNaves["personitaV.svg"] = {w:50,h:50};
@@ -121,12 +124,19 @@ function broadcast(missatge, clientExclos) {
 		}
 	});
 }
-function actualizarInfo(mensaje,client)
+function actualizarInfo(mensaje,client) //Funcion que manda la informacion al local
 {
 	sales[0].sumarPuntosEquipos();
-	client.send((JSON.stringify(sales[mensaje.server].players)));
-	client.send((JSON.stringify(sales[mensaje.server].estrelles)));
-	client.send((JSON.stringify(sales[mensaje.server].score)));
+	if (sales[0].status == 1) // 1 = partida on, 0 = partida off
+		{
+			if(sales[0].score[0] >= maxPunts) {client.send("Gana verde"); sales[0].status = 0;} // Calcular si alguien a ganado
+			else if(sales[0].score[1] >= maxPunts) {client.send("Gana rojo"); sales[0].status = 0;} else 
+			{
+				client.send((JSON.stringify(sales[mensaje.server].players)));
+				client.send((JSON.stringify(sales[mensaje.server].estrelles)));
+			}
+			client.send((JSON.stringify(sales[mensaje.server].score)));
+		}
 }
 function changePlayersPos(mensaje)
 {
