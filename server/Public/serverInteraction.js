@@ -25,7 +25,7 @@ if (!specificCookie) {
 }
 
 
-function init() {
+function init(jugador) {
     // Local o remot
     let domini;
     if (window.location.protocol == "file:") domini = "localhost";
@@ -37,6 +37,8 @@ function init() {
 
     // Quan s'obre la connexió, enviar missatge al servidor
     connexio.onopen = () => {
+        connexio.send("Hola a tothom!");
+        if(jugador == true) JSON.stringify({action: "generarNave"}) 
         connexio.send("Hola a tothom!");
     }
 

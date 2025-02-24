@@ -16,8 +16,9 @@ import WebSocket, {WebSocketServer} from 'ws';
 
 
 let admin = false;
-let spawnRate = 0;
+let spawnRate = 5000;
 let maxPedres = 0;
+let estrellaInterval = 5000;
 
 let maxX = 1160;
 let maxY = 600;
@@ -54,6 +55,18 @@ function broadcast(missatge, clientExclos) {
 		}
 	});
 }
+function encenderServer(mensaje)
+{
+	spawnRate = mensaje.spRate;
+	maxPedres = parseInt(mensaje.mxP) + 1;
+
+
+	clearInterval(estrellaInterval);
+	estrellaInterval = setInterval(generarEstrellas,spawnRate);
+
+	sales[0].status = 1;
+}
+
 function actualizarInfo(mensaje,client) //Funcion que manda la informacion al local
 {
 	sales[0].sumarPuntosEquipos();
@@ -133,7 +146,6 @@ function checkSpawnPoint(velX,velY,index)
 		do
 		{
 			intentos = intentos;
-			console.log(sales[0].spawnPoints);
 			sales[0].players[index].x = sales[0].spawnPoints[intentos].x; 
 			sales[0].players[index].y = sales[0].spawnPoints[intentos].y; 
 			posOcupada = checkColision(velX,velY,index);
@@ -158,13 +170,12 @@ function rotacion(velX,velY)
     return rot;
 }
 //Codi estrelles
-setInterval(generarEstrellas,spawnRate);
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
 function generarEstrellas()
 {
-	if(sales[0].estrelles.length < maxPedres - 1)
+	if(sales[0].estrelles.length < maxPedres)
 		{
 			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(maxX - minX) + minX,y:getRandomInt(maxY - minY) + minY});
 		}
@@ -256,7 +267,19 @@ wsServer.on('/updateConfig', (req, res) => {
 	res.send({ status: "OK" });
 	
 });
+function generarPlayer()
+{
+	let img = "Camello/personitaV";
+	let equip = "green";
+	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
+	if(equip == "red") img = "Camello/personitaR";
+	//Meter al jugador y chequear posicion
+	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:sales[0].spawnPoints[0].x
+		,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[1]].w,h:tamanoNaves[img.split("/")[1]].h,brick:false});
+	checkSpawnPoint(0,0,sales[0].players.length-1);
 
+	client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
+}
 // Al rebre un nou client (nova connexió)
 wsServer.on('connection', (client, peticio) => {
 	// Guardar identificador (IP i Port) del nou client
@@ -285,7 +308,8 @@ wsServer.on('connection', (client, peticio) => {
 			let js = JSON.parse(`${missatge}`);
 			if(js.action == "mover")changePlayersPos(js);	
 			else if(js.action == "actualizar")actualizarInfo(js,client);	
-			else if(js.action == "iniciar")sales[0].status=1;	
+			else if(js.action == "iniciar")encenderServer(js);	
+			else if(js.action == "generarNave") generarPlayer(client);
 			else console.log(js);
 		} catch (error) {
 			console.log(error);
