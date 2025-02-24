@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+	<title>WebSocket Echo Client</title>
+    <meta charset="UTF-8">
+    <style>
+    	.div {overflow-y:auto;margin-bottom:1rem;width:20rem;height:30rem;border:solid black 1px;}
+    	textarea {width:20rem;}
+		.partida
+		{
+			display: flex;
+			border-radius: 10px;
+			width: 1200px;
+			height: 650px;
+			background-color: #f2f2f2;
+			position: relative;
+		}
+		.AreaRed
+		{
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			border-radius: 10px;
+			width: 300px;
+			height: 150px;
+			background-color: #ff00004a;
+		}	
+		.AreaGreen
+		{
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			border-radius: 10px;
+			width: 300px;
+			height: 150px;
+			background-color: #37ff004a;
+		}
+		.DivPlayer
+		{
+			position:absolute;
+			
+			bottom:0px;
+			
+			overflow: hidden;
+			border: 0cap	;
+			height: fit-content;
+			width: fit-content;
+		}
+		.DivEstrella
+		{
+			position:absolute;
+			
+			bottom:0px;
+			
+			overflow: hidden;
+			border: 0cap	;
+			height: min-content;
+			width: min-content;
+		}
+		.player
+		{
+			border-width: 0cap;
+		}
+		iframe
+		{
+			border-width: 0cap;
+			overflow: hidden;
+		}
+    </style>
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+	<script defer src="../server/Public/adminConfig.js"></script>
+    <script defer src="../server/Public/serverInteraction.js"></script>
+</head>
+<body onload="init()">
+	<div class="semiTransparentSmall">
+		<h1 class="StHt">STAR HUNTERS</h1>
+        <p>Temps d'aparició de les pedres</p><input type="number" id="spawnRate" value="5000">
+        <p>Màxim de pedres</p><input type="number" id="maxPedres" value="5">
+		<input type="button" id="saveButton" value="Iniciar">
+	</div>
+	<div class="partida">
+		<div class="AreaGreen">
+			<div class="TorreGreen"><iframe src="" width="100" height="100"></iframe></div>
+		</div>
+		<div class="AreaRed">
+			<div class="TorreRed"><iframe src="" width="100" height="100"></iframe></div>
+		</div>
+		<div class="jugadores"></div>
+		<div class="estrellas"></div>
+	</div>
+</body>
+</html>

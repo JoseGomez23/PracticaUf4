@@ -29,6 +29,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+let admin = false;
+let spawnRate = 0;
+let maxPedres = 0;
+
 let maxX = 1160;
 let maxY = 600;
 let minX = 0;
@@ -228,13 +232,13 @@ function rotacion(velX,velY)
     return rot;
 }
 //Codi estrelles
-setInterval(generarEstrellas,5000);
+setInterval(generarEstrellas,spawnRate);
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
 function generarEstrellas()
 {
-	if(sales[0].estrelles.length < 6)
+	if(sales[0].estrelles.length < maxPedres - 1)
 		{
 			sales[0].estrelles.push({id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(maxX - minX) + minX,y:getRandomInt(maxY - minY) + minY});
 		}
@@ -316,6 +320,16 @@ function recogerEstrella(index, sp, spPres, brick)
 		else sales[0].players[index].img = "Camello/personitaVB";
 	}
 }
+
+wsServer.on('/updateConfig', (req, res) => {
+
+	console.log(req.body);
+	admin = req.body.statusAdmin;
+	spawnRate = req.body.spawnRate;
+	maxPedres = req.body.maxPedres;
+	res.send({ status: "OK" });
+	
+});
 
 // Al rebre un nou client (nova connexió)
 wsServer.on('connection', (client, peticio) => {
