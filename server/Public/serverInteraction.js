@@ -2,6 +2,7 @@
 let connexio;
 let dibujarInt = 0;
 let estrellasInt = 0;
+let esJugador = 0;
 
 let bgMusic = new Audio('./media/Music/backgroundMusic.mp3');
 bgMusic.volume = 0.2;
@@ -27,6 +28,7 @@ if (!specificCookie) {
 
 function init(jugador) {
     // Local o remot
+    esJugador = jugador;
     let domini;
     if (window.location.protocol == "file:") domini = "localhost";
     else domini = window.location.hostname;
@@ -38,7 +40,11 @@ function init(jugador) {
     // Quan s'obre la connexió, enviar missatge al servidor
     connexio.onopen = () => {
         connexio.send("Hola a tothom!");
-        if(jugador == true) JSON.stringify({action: "generarNave"}) 
+        if(jugador == true) 
+            {
+                connexio.send(JSON.stringify({action: "generarNave"}));
+                alert("kbjh");
+            }
         connexio.send("Hola a tothom!");
     }
 
@@ -76,6 +82,8 @@ function init(jugador) {
     }
     dibujarInt = setInterval(function(){dibujarNaves(players)},1000/60);
     estrellasInt = setInterval(function(){dibujarEstrellas(estrellas)},1000/60);
+    if(esJugador)$(window).on("keydown",naveTeclado);    
+    if(esJugador)$(window).on("keyup",naveTeclado); 
 }
 // Recivir datos
 function actualizarPartida(event)
@@ -91,8 +99,7 @@ let keyCodeMovementU = 0;
 let keyCodeMovementD = 0;
 let keyCodeSpace = 0;
 let keyCodeSpaceValue = 0;
-$(window).on("keydown",naveTeclado);    
-$(window).on("keyup",naveTeclado);    
+   
 setInterval(mover,20);
 function mover(event)
 {

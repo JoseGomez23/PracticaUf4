@@ -267,8 +267,9 @@ wsServer.on('/updateConfig', (req, res) => {
 	res.send({ status: "OK" });
 	
 });
-function generarPlayer()
+function generarPlayer(client,peticio)
 {
+	console.log("lh")
 	let img = "Camello/personitaV";
 	let equip = "green";
 	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
@@ -290,17 +291,6 @@ wsServer.on('connection', (client, peticio) => {
 	client.send(`Benvingut <strong>${id}</strong>`);
 	broadcast(`Nou client afegit: ${id}`, client);
 
-	//Decidir equipo e imagen
-	let img = "Camello/personitaV";
-	let equip = "green";
-	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
-	if(equip == "red") img = "Camello/personitaR";
-	//Meter al jugador y chequear posicion
-	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:sales[0].spawnPoints[0].x
-		,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[1]].w,h:tamanoNaves[img.split("/")[1]].h,brick:false});
-	checkSpawnPoint(0,0,sales[0].players.length-1);
-
-	client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
 	// Al rebre un missatge d'aques client
 	//	reenviar-lo a tothom (inclòs ell mateix)
 	client.on('message', missatge => {
@@ -309,7 +299,7 @@ wsServer.on('connection', (client, peticio) => {
 			if(js.action == "mover")changePlayersPos(js);	
 			else if(js.action == "actualizar")actualizarInfo(js,client);	
 			else if(js.action == "iniciar")encenderServer(js);	
-			else if(js.action == "generarNave") generarPlayer(client);
+			else if(js.action == "generarNave") generarPlayer(client,peticio);
 			else console.log(js);
 		} catch (error) {
 			console.log(error);
@@ -322,7 +312,7 @@ wsServer.on('connection', (client, peticio) => {
 	{
 		console.log("Desconexion de player"+peticio.socket.remotePort );
 		let index = sales[0].players.findIndex(obj => obj.id == ("player"+peticio.socket.remotePort));
-		sales[0].players.splice(index,1);
+		if(index != -1)sales[0].players.splice(index,1);
 		console.log(sales[0].players);
 	});
 });
