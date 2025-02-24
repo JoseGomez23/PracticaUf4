@@ -6,7 +6,7 @@ export class Partida
     estrelles = [];
     score = [0,0]; // el primero es del verde y el segundo del rojo
     spawnPoints; // el primero es del verde y el segundo del rojo
-    status = 1; // 1 = partida on, 0 = partida off
+    status = 0; // 1 = partida on, 0 = partida off
 
     constructor(id,players,estrelles,max)
     {

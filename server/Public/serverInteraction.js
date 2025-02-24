@@ -3,7 +3,6 @@ let connexio;
 let dibujarInt = 0;
 let estrellasInt = 0;
 
-//Musica
 let bgMusic = new Audio('./media/Music/backgroundMusic.mp3');
 bgMusic.volume = 0.2;
 let musicPlaying = false;
@@ -206,7 +205,6 @@ tamanoNaves["Planes"] = {w:50,h:50};
 let idJugador = "player1"
 function dibujarNaves(naves)
 {
-    {
     let partida = $(".jugadores");
     naves.forEach(element => {
         let id = "#"+element.id;
@@ -234,7 +232,6 @@ function dibujarNaves(naves)
                 }
         }
     actualizarPuntos();
-    } 
 }
 function actualizarPuntos()
 {

@@ -285,6 +285,7 @@ wsServer.on('connection', (client, peticio) => {
 			let js = JSON.parse(`${missatge}`);
 			if(js.action == "mover")changePlayersPos(js);	
 			else if(js.action == "actualizar")actualizarInfo(js,client);	
+			else if(js.action == "iniciar")sales[0].status=1;	
 			else console.log(js);
 		} catch (error) {
 			console.log(error);
@@ -353,6 +354,7 @@ function onRequest(peticio, resposta) {
 			let filename = "." + q.pathname;
 
 			if (filename == "./Joc") filename += "/index.html";
+			if (filename == "./adminJoc") filename += "/index.html";
 			if (existsSync(filename)) {
 				readFile(filename, function(err, dades) {
 					enviarArxiu(resposta, dades, filename, undefined, err);

@@ -4,7 +4,20 @@ let maxPedres = document.getElementById("maxPedres");
 let statusAdmin = true;
 
 
+
 document.getElementById("saveButton").addEventListener("click", () => {
+
+    let spawnrate = $("#spawnRate").val();
+    let maxPedres = $("#maxPedres").val();
+    alert(maxPedres);
+    let js = JSON.stringify({action: "iniciar", spawnRate:spawnRate,maxPedres:maxPedres})
+    enviar(Event,js);
+});
+
+function enviarInfo()
+{
+    
+
     fetch("/updateConfig", {
         method: "POST",
         headers: {
@@ -23,4 +36,4 @@ document.getElementById("saveButton").addEventListener("click", () => {
     .catch((error) => {
         console.error("Error:", error);
     });
-});
+}
