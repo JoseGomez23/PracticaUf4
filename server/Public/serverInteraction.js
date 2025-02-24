@@ -208,16 +208,18 @@ function dibujarNaves(naves)
     let partida = $(".jugadores");
     naves.forEach(element => {
         let id = "#"+element.id;
+        let extension = ".svg";
+        if(idJugador == element.id) extension = "M"+extension;
         let div = $(id);
         if($(div).length == 0)
             {
                 div = $('<div class="DivPlayer" id="'+element.id+'" style="top:'+element.x+'px; left:'+element.y+'px; transform: rotate('+element.rot+'deg);">'+
-                    '<iframe src="./media/'+element.img+'" width="'+element.w+'" height="'+element.h+'" class="player" title="SVG"></iframe></div>');
+                    '<iframe src="./media/'+element.img+extension+'" width="'+element.w+'" height="'+element.h+'" class="player" title="SVG"></iframe></div>');
                 $(partida).append(div);
             }
         $(div).css({top: element.y+"px", left: element.x+"px",transform: 'rotate('+element.rot+'deg)'})  
         let iframe = $(div).find("iframe");
-        if($(iframe).attr("src") != "./media/"+element.img)$(iframe).attr("src","./media/"+element.img);  
+        if($(iframe).attr("src") != "./media/"+element.img+extension)$(iframe).attr("src","./media/"+element.img+extension);  
     });
     let navesDibujadas = $(partida).find(".DivPlayer");
     for(let i = 0; i < $(navesDibujadas).length; i++)

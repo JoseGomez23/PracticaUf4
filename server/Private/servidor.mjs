@@ -36,13 +36,13 @@ let minY = 0;
 
 let areaGreenMinY = 500;
 let areaGreenMaxY = 650;
-let areaGreenMinX = 800;
-let areaGreenMaxX = 1200;
+let areaGreenMinX = 850;
+let areaGreenMaxX = 1250;
 
 let areaRedMinY = 0;
 let areaRedMaxY = 150;
-let areaRedMinX = 800;
-let areaRedMaxX = 1200;
+let areaRedMinX = 850;
+let areaRedMaxX = 1250;
 
 let maxPunts = 15;
 
@@ -113,8 +113,8 @@ console.log("Servidor WebSocket escoltant en http://localhost:8180");
 let sales = [];
 sales.push(new Partida(0,[],[{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}],maxPunts));
 let tamanoNaves = [];
-tamanoNaves["personitaR.svg"] = {w:50,h:50};
-tamanoNaves["personitaV.svg"] = {w:50,h:50};
+tamanoNaves["personitaR"] = {w:50,h:50};
+tamanoNaves["personitaV"] = {w:50,h:50};
 // Enviar missatge a tothom excepte a 'clientExclos'
 //	(si no s'especifica qui és el 'clientExclos', s'envia a tots els clients)
 function broadcast(missatge, clientExclos) {
@@ -307,13 +307,13 @@ function recogerEstrella(index, sp, spPres, brick)
 		}
 	if (brick == false) {
 
-		if (sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaR.svg";
-		else sales[0].players[index].img = "Camello/personitaV.svg";
+		if (sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaR";
+		else sales[0].players[index].img = "Camello/personitaV";
 	
 	} else {
 
-		if (sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaRB.svg";
-		else sales[0].players[index].img = "Camello/personitaVB.svg";
+		if (sales[0].players[index].team == "red") sales[0].players[index].img = "Camello/personitaRB";
+		else sales[0].players[index].img = "Camello/personitaVB";
 	}
 }
 
@@ -328,10 +328,10 @@ wsServer.on('connection', (client, peticio) => {
 	broadcast(`Nou client afegit: ${id}`, client);
 
 	//Decidir equipo e imagen
-	let img = "Camello/personitaV.svg";
+	let img = "Camello/personitaV";
 	let equip = "green";
 	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
-	if(equip == "red") img = "Camello/personitaR.svg";
+	if(equip == "red") img = "Camello/personitaR";
 	//Meter al jugador y chequear posicion
 	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:sales[0].spawnPoints[0].x
 		,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[1]].w,h:tamanoNaves[img.split("/")[1]].h,brick:false});
