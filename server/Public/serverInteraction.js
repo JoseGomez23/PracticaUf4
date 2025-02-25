@@ -43,7 +43,9 @@ function init(jugador) {
         if(jugador == true) 
             {
                 connexio.send(JSON.stringify({action: "generarNave"}));
-                alert("kbjh");
+            }else
+            {
+                connexio.send(JSON.stringify({action: "generarAdmin"}));
             }
         connexio.send("Hola a tothom!");
     }
@@ -52,12 +54,14 @@ function init(jugador) {
     connexio.onmessage = e => {
             try {
             let l = JSON.parse(e.data);
+            console.log(l.vesA);
             if(l.TuId != null) 
                 {
                     idJugador = l.TuId;
 
                     alert(idJugador);
                 }
+            else if((l.vesA)) window.location.replace(l.vesA); 
             else if((l[0].img == 'lego-block.svg')) estrellas = l;
             else if((l[0] >= 0)) puntosEquipos = l;
             else players = l;

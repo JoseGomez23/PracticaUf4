@@ -267,6 +267,19 @@ wsServer.on('/updateConfig', (req, res) => {
 	res.send({ status: "OK" });
 	
 });
+function generarAdmin(client,peticio)
+{
+	if(sales[0].admin == 0)
+		{
+			let id = "admin"+peticio.socket.remotePort;
+			sales[0].admin = id;
+			client.send((JSON.stringify({TuId:id})));
+		}else
+		{
+			client.send((JSON.stringify({vesA:"http://localhost:8000"})));
+		}
+}
+
 function generarPlayer(client,peticio)
 {
 	console.log("lh")
@@ -300,19 +313,22 @@ wsServer.on('connection', (client, peticio) => {
 			else if(js.action == "actualizar")actualizarInfo(js,client);	
 			else if(js.action == "iniciar")encenderServer(js);	
 			else if(js.action == "generarNave") generarPlayer(client,peticio);
+			else if(js.action == "generarAdmin") generarAdmin(client,peticio);
 			else console.log(js);
+			console.log(sales[0].admin);
 		} catch (error) {
 			console.log(error);
 			broadcast(`<strong>${id}: </strong>${missatge}`);
 		}
 		//broadcast(`<strong>${id}: </strong>${missatge}`);
-		//console.log(`Missatge de ${id} --> ${missatge}`);
+		console.log(`Missatge de ${id} --> ${missatge}`);
 	});
 	client.on("close",(reason) =>
 	{
 		console.log("Desconexion de player"+peticio.socket.remotePort );
 		let index = sales[0].players.findIndex(obj => obj.id == ("player"+peticio.socket.remotePort));
 		if(index != -1)sales[0].players.splice(index,1);
+		else if(sales[0].admin == "admin"+peticio.socket.remotePort)sales[0].admin = 0;
 		console.log(sales[0].players);
 	});
 });
