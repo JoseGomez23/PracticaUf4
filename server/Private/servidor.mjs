@@ -58,7 +58,7 @@ function broadcast(missatge, clientExclos) {
 function encenderServer(mensaje)
 {
 
-	sales[0].score = [0,0];
+	sales[0].score = [0,0,maxPunts];
 	sales[0].estrelles = [{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}];
 	
 	spawnRate = mensaje.spRate;
