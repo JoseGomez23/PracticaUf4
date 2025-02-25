@@ -297,10 +297,11 @@ function dibujarTorre(puntosVerde,puntosRojo,max)
         {
             let redT = $(".TorreRed").find("*");
             let greenT = $(".TorreGreen").find("*");
-            if(puntosRojo > 0) $(redT).prop("src","../media/Components/torre/red/"+puntosRojo+"b.svg");
+            if(puntosRojo > 0 && puntosRojo <= max) $(redT).prop("src","../media/Components/torre/red/"+puntosRojo+"b.svg");
             else $(redT).prop("src","");
-            if(puntosVerde > 0) $(greenT).prop("src","../media/Components/torre/green/"+puntosVerde+"b.svg");
+            if(puntosVerde > 0 && puntosVerde <= max) $(greenT).prop("src","../media/Components/torre/green/"+puntosVerde+"b.svg");
             else $(greenT).prop("src","");
+            console.log(puntosRojo,puntosVerde);
         }
 
 }
