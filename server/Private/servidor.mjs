@@ -25,7 +25,7 @@ let maxY = 600;
 let minX = 0;
 let minY = 0;
 
-let areaGreenMinY = 500;
+let areaGreenMinY = 450;
 let areaGreenMaxY = 650;
 let areaGreenMinX = 850;
 let areaGreenMaxX = 1250;
