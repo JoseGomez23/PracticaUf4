@@ -68,21 +68,14 @@ function init(jugador) {
         } catch (error) {
             if (typeof (e.data) == typeof ("")) {
                 if (e.data.includes("Gana")) {
-                    setTimeout(function () { alert(e.data); }, 100);
+                    setTimeout(function () { 
+                        alert(e.data); 
+                        idJugador.startsWith("player")? window.location.replace("http://localhost:8000"):location.reload();                        ; 
+                    }, 100);
                 } 
                 /*let d = document.querySelector('chat');
                     d.innerHTML += "<p>" + e.data + "</p>";
                     d.scroll(0,d.scrollHeight);*/
-            } else {
-                try {
-                    
-                    let js = JSON.parse(e.data);
-                    if (js.action === "refresh") {
-                        location.reload();  
-                    }
-                } catch (err) {
-                    console.log("Error al procesar el mensaje:", err);
-                }
             }
         }
     }
@@ -234,12 +227,12 @@ function dibujarNaves(naves)
         if($(div).length == 0)
             {
                 div = $('<div class="DivPlayer" id="'+element.id+'" style="top:'+element.x+'px; left:'+element.y+'px; transform: rotate('+element.rot+'deg);">'+
-                    '<iframe src="./media/'+element.img+extension+'" width="'+element.w+'" height="'+element.h+'" class="player" title="SVG"></iframe></div>');
+                    '<iframe src="../media/'+element.img+extension+'" width="'+element.w+'" height="'+element.h+'" class="player" title="SVG"></iframe></div>');
                 $(partida).append(div);
             }
         $(div).css({top: element.y+"px", left: element.x+"px",transform: 'rotate('+element.rot+'deg)'})  
         let iframe = $(div).find("iframe");
-        if($(iframe).attr("src") != "./media/"+element.img+extension)$(iframe).attr("src","./media/"+element.img+extension);  
+        if($(iframe).attr("src") != "../media/"+element.img+extension)$(iframe).attr("src","../media/"+element.img+extension);  
     });
     let navesDibujadas = $(partida).find(".DivPlayer");
     for(let i = 0; i < $(navesDibujadas).length; i++)
@@ -277,7 +270,7 @@ function dibujarEstrellas(estrellas)
         if($(div).length == 0)
             {
                 div = $('<div class="DivEstrella" id="'+element.id+'" style="top:'+element.x+'px; left:'+element.y+'px;">'+
-                    '<iframe src="./media/Components/'+element.img+'" width="20" height="20" class="estrella" title="SVG"></iframe></div>');
+                    '<iframe src="../media/Components/'+element.img+'" width="20" height="20" class="estrella" title="SVG"></iframe></div>');
                 $(partida).append(div);
             }
         $(div).css({top: element.y+"px", left: element.x+"px",transform: 'rotate('+element.rot+'deg)'})  
@@ -304,9 +297,9 @@ function dibujarTorre(puntosVerde,puntosRojo,max)
         {
             let redT = $(".TorreRed").find("*");
             let greenT = $(".TorreGreen").find("*");
-            if(puntosRojo > 0) $(redT).prop("src","./media/Components/torre/red/"+puntosRojo+"b.svg");
+            if(puntosRojo > 0) $(redT).prop("src","../media/Components/torre/red/"+puntosRojo+"b.svg");
             else $(redT).prop("src","");
-            if(puntosVerde > 0) $(greenT).prop("src","./media/Components/torre/green/"+puntosVerde+"b.svg");
+            if(puntosVerde > 0) $(greenT).prop("src","../media/Components/torre/green/"+puntosVerde+"b.svg");
             else $(greenT).prop("src","");
         }
 

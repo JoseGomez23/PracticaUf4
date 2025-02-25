@@ -76,25 +76,19 @@ function actualizarInfo(mensaje,client) //Funcion que manda la informacion al lo
 	if (sales[0].status == 1) // 1 = partida on, 0 = partida off
 		{
 			if(sales[0].score[0] >= maxPunts) {
-
-				client.send("Gana verde");
+				wsServer.clients.forEach(function each(client) { //Si alguien gana se le envia el mensage a todos
+					if (client.readyState === WebSocket.OPEN) {
+						client.send("Gana verde");
+					}
+				});
 				sales[0].status = 0;
-				setTimeout(() => {
-
-					let js = client.send(JSON.stringify({ action: "refresh" }));
-					enviar(new Event(""),js);
-				}, 3000);
-
 			} else if(sales[0].score[1] >= maxPunts) {
-
-				client.send("Gana rojo");
+				wsServer.clients.forEach(function each(client) {
+					if (client.readyState === WebSocket.OPEN) {
+						client.send("Gana rojo");
+					}
+				});
 				sales[0].status = 0;
-				setTimeout(() => {
-
-					let js = client.send(JSON.stringify({ action: "refresh" }));
-					enviar(new Event(""),js);
-				}, 3000);
-
 			} else {
 				client.send((JSON.stringify(sales[mensaje.server].players)));
 				client.send((JSON.stringify(sales[mensaje.server].estrelles)));
@@ -303,7 +297,6 @@ function generarAdmin(client,peticio)
 
 function generarPlayer(client,peticio)
 {
-	console.log("lh")
 	let img = "Camello/personitaV";
 	let equip = "green";
 	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
@@ -335,15 +328,13 @@ wsServer.on('connection', (client, peticio) => {
 			else if(js.action == "iniciar")encenderServer(js);	
 			else if(js.action == "generarNave") generarPlayer(client,peticio);
 			else if(js.action == "generarAdmin") generarAdmin(client,peticio);
-			else if(js.action == "refresh") reiniciarClient();
 			else console.log(js);
-			console.log(sales[0].admin);
 		} catch (error) {
 			console.log(error);
 			broadcast(`<strong>${id}: </strong>${missatge}`);
 		}
 		//broadcast(`<strong>${id}: </strong>${missatge}`);
-		console.log(`Missatge de ${id} --> ${missatge}`);
+		//console.log(`Missatge de ${id} --> ${missatge}`);
 	});
 	client.on("close",(reason) =>
 	{
@@ -351,13 +342,9 @@ wsServer.on('connection', (client, peticio) => {
 		let index = sales[0].players.findIndex(obj => obj.id == ("player"+peticio.socket.remotePort));
 		if(index != -1)sales[0].players.splice(index,1);
 		else if(sales[0].admin == "admin"+peticio.socket.remotePort)sales[0].admin = 0;
-		console.log(sales[0].players);
 	});
 });
 
-function reiniciarClient(){
-    client.send(JSON.stringify({ action: "refresh" }));
-}
 
 
 //let players = [{id:"player1",img:"rocketBlue.svg",x:0,y:0},{id:"player2",img:"rocketGreen.svg",x:0,y:0}];
@@ -409,9 +396,9 @@ function onRequest(peticio, resposta) {
 		if (peticio.method == 'GET') {
 			let q = parse(peticio.url, true);
 			let filename = "." + q.pathname;
-
-			if (filename == "./Joc") filename += "/index.html";
-			if (filename == "./adminJoc") filename += "/index.html";
+			console.log("Filename: "+filename);
+			if (filename == "./vistes/Joc") filename += "/index.html";
+			if (filename == "./vistes/adminJoc") filename += "/index.html";
 			if (existsSync(filename)) {
 				readFile(filename, function(err, dades) {
 					enviarArxiu(resposta, dades, filename, undefined, err);
