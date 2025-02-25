@@ -35,7 +35,7 @@ let areaRedMaxY = 150;
 let areaRedMinX = 850;
 let areaRedMaxX = 1250;
 
-let maxPunts = 1;
+let maxPunts = 15;
 
 // Crear servidor WebSockets i escoltar en el port 8180
 const wsServer = new WebSocketServer({ port:8180 })
@@ -297,16 +297,23 @@ function generarAdmin(client,peticio)
 
 function generarPlayer(client,peticio)
 {
-	let img = "Camello/personitaV";
-	let equip = "green";
-	if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
-	if(equip == "red") img = "Camello/personitaR";
-	//Meter al jugador y chequear posicion
-	sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:sales[0].spawnPoints[0].x
-		,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[1]].w,h:tamanoNaves[img.split("/")[1]].h,brick:false});
-	checkSpawnPoint(0,0,sales[0].players.length-1);
+	if(sales[0].players.length < 8)
+		{
+			let img = "Camello/personitaV";
+			let equip = "green";
+			if(sales[0].lessPlayersTeam() == 1) equip = "red"; 
+			if(equip == "red") img = "Camello/personitaR";
+			//Meter al jugador y chequear posicion
+			sales[0].players.push({id:("player"+peticio.socket.remotePort),team:equip,nom:"Mondongo",img:img,x:sales[0].spawnPoints[0].x
+				,y:sales[0].spawnPoints[0].y,rot:0,score: 0,w:tamanoNaves[img.split("/")[1]].w,h:tamanoNaves[img.split("/")[1]].h,brick:false});
+			checkSpawnPoint(0,0,sales[0].players.length-1);
 
-	client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
+			client.send((JSON.stringify({TuId:"player"+peticio.socket.remotePort})));
+		}else
+		{
+			client.send((JSON.stringify({vesA:"http://localhost:8000"})));
+		}
+
 }
 // Al rebre un nou client (nova connexió)
 wsServer.on('connection', (client, peticio) => {

@@ -15,7 +15,7 @@ export class Partida
         this.players = players;
         this.estrelles = estrelles;
         this.score.push(max);
-        this.spawnPoints = [{x:10,y:120},{x:10,y:220},{x:10,y:320},{x:10,y:420},{x:10,y:520},{x:10,y:620},{x:10,y:720},{x:10,y:820}];
+        this.spawnPoints = [{x:10,y:100},{x:10,y:160},{x:10,y:220},{x:10,y:280},{x:10,y:340},{x:10,y:400},{x:10,y:460},{x:10,y:520}];
     }
 
     //Seters i geters
@@ -66,12 +66,14 @@ export class Partida
         let verdes = 0;
         let rojos = 0;
         this.players.forEach(element => {
-            
             if(element.team == "green") verdes += element.score;
             else rojos += element.score
+            let index = this.players.findIndex(obj => obj.id == (element.id));
+            this.players[index].score = 0;
         });
-        this.score[0] = verdes;
-        this.score[1] = rojos;
+        this.score[0] += verdes;
+        this.score[1] += rojos;
+        console.log(this.score);
         return this.score;
     }
 }
