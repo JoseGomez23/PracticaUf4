@@ -4,6 +4,7 @@ export class Partida
     id = "";
     players = [];
     estrelles = [];
+    admin = 0;
     score = [0,0]; // el primero es del verde y el segundo del rojo
     spawnPoints; // el primero es del verde y el segundo del rojo
     status = 0; // 1 = partida on, 0 = partida off
