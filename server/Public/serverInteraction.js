@@ -50,30 +50,37 @@ function init(jugador) {
 
     // Quan arriba un missatge, mostrar-lo per consola
     connexio.onmessage = e => {
-            try {
+        try 
+        {
             let l = JSON.parse(e.data);
-            if(l.TuId != null) 
-                {
-                    idJugador = l.TuId;
-
-                    alert(idJugador);
-                }
-            else if((l[0].img == 'lego-block.svg')) estrellas = l;
-            else if((l[0] >= 0)) puntosEquipos = l;
+    
+            if (l.TuId != null) {
+                idJugador = l.TuId;
+                alert(idJugador);
+            }
+            else if (l[0].img == 'lego-block.svg') estrellas = l;
+            else if (l[0] >= 0) puntosEquipos = l;
             else players = l;
         } catch (error) {
-            if(typeof(e.data) == typeof(""))
-                {
-                    if(e.data.includes("Gana"))
-                        {
-                            setTimeout(function(){alert(e.data);},100);
-                        }
-                    /*let d = document.querySelector('chat');
+            if (typeof (e.data) == typeof ("")) {
+                if (e.data.includes("Gana")) {
+                    setTimeout(function () { alert(e.data); }, 100);
+                } 
+                /*let d = document.querySelector('chat');
                     d.innerHTML += "<p>" + e.data + "</p>";
                     d.scroll(0,d.scrollHeight);*/
-                } 
+            } else {
+                try {
+                    
+                    let js = JSON.parse(e.data);
+                    if (js.action === "refresh") {
+                        location.reload();  
+                    }
+                } catch (err) {
+                    console.log("Error al procesar el mensaje:", err);
+                }
+            }
         }
-
     }
     
     // Quan es produeix un error, mostrar-lo per consola

@@ -64,9 +64,9 @@ export function Oauth()
       
           let dadesUser = JSON.stringify({ email: req.user._json.email });
           if(dadesUser.match(/{"email":"[^"]+@sapalomera\.cat"}/)){
-      
+            
               res.cookie('email', dadesUser, { maxAge: 900000 });
-              res.redirect("http://localhost:8080/Joc");
+              res.redirect("http://localhost:8080/vistes/index.html");
           } else {
               res.send(`No tens permís per accedir a aquesta pàgina`);
           }

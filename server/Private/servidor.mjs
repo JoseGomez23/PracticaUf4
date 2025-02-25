@@ -35,7 +35,7 @@ let areaRedMaxY = 150;
 let areaRedMinX = 850;
 let areaRedMaxX = 1250;
 
-let maxPunts = 15;
+let maxPunts = 1;
 
 // Crear servidor WebSockets i escoltar en el port 8180
 const wsServer = new WebSocketServer({ port:8180 })
@@ -57,9 +57,12 @@ function broadcast(missatge, clientExclos) {
 }
 function encenderServer(mensaje)
 {
+
+	sales[0].score = [0,0];
+	sales[0].estrelles = [{id:("estrella"+Date.now()),img:"lego-block.svg",x:getRandomInt(-1000),y:getRandomInt(-1000)}];
+	
 	spawnRate = mensaje.spRate;
 	maxPedres = parseInt(mensaje.mxP) + 1;
-
 
 	clearInterval(estrellaInterval);
 	estrellaInterval = setInterval(generarEstrellas,spawnRate);
@@ -72,9 +75,27 @@ function actualizarInfo(mensaje,client) //Funcion que manda la informacion al lo
 	sales[0].sumarPuntosEquipos();
 	if (sales[0].status == 1) // 1 = partida on, 0 = partida off
 		{
-			if(sales[0].score[0] >= maxPunts) {client.send("Gana verde"); sales[0].status = 0;} // Calcular si alguien a ganado
-			else if(sales[0].score[1] >= maxPunts) {client.send("Gana rojo"); sales[0].status = 0;} else 
-			{
+			if(sales[0].score[0] >= maxPunts) {
+
+				client.send("Gana verde");
+				sales[0].status = 0;
+				setTimeout(() => {
+
+					let js = client.send(JSON.stringify({ action: "refresh" }));
+					enviar(new Event(""),js);
+				}, 3000);
+
+			} else if(sales[0].score[1] >= maxPunts) {
+
+				client.send("Gana rojo");
+				sales[0].status = 0;
+				setTimeout(() => {
+
+					let js = client.send(JSON.stringify({ action: "refresh" }));
+					enviar(new Event(""),js);
+				}, 3000);
+
+			} else {
 				client.send((JSON.stringify(sales[mensaje.server].players)));
 				client.send((JSON.stringify(sales[mensaje.server].estrelles)));
 			}
@@ -300,6 +321,7 @@ wsServer.on('connection', (client, peticio) => {
 			else if(js.action == "actualizar")actualizarInfo(js,client);	
 			else if(js.action == "iniciar")encenderServer(js);	
 			else if(js.action == "generarNave") generarPlayer(client,peticio);
+			else if(js.action == "refresh") reiniciarClient();
 			else console.log(js);
 		} catch (error) {
 			console.log(error);
@@ -316,6 +338,11 @@ wsServer.on('connection', (client, peticio) => {
 		console.log(sales[0].players);
 	});
 });
+
+function reiniciarClient(){
+    client.send(JSON.stringify({ action: "refresh" }));
+}
+
 
 //let players = [{id:"player1",img:"rocketBlue.svg",x:0,y:0},{id:"player2",img:"rocketGreen.svg",x:0,y:0}];
 //let players = [];
